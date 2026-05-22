@@ -1,5 +1,5 @@
 accounts = {}
-print("Testing Git")
+
 while True:
 
     print("\n===== BANK ACCOUNT SYSTEM =====")
