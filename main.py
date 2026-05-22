@@ -1,5 +1,5 @@
 accounts = {}
-
+print("HI")
 while True:
 
     print("\n===== BANK ACCOUNT SYSTEM =====")
