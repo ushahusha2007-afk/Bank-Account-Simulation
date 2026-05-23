@@ -1,5 +1,6 @@
 accounts = {}
 
+# CREATE ACCOUNT FUNCTION
 def create_account():
 
     acc_no = input("Enter Account Number: ")
@@ -14,9 +15,27 @@ def create_account():
     }
 
     print("Account Created Successfully")
-    print(accounts)
 
 
+# LOGIN FUNCTION
+def login():
+
+    acc_no = input("Enter Account Number: ")
+    password = input("Enter Password: ")
+
+    if acc_no in accounts:
+
+        if accounts[acc_no]["password"] == password:
+            print("Login Successful")
+
+        else:
+            print("Incorrect Password")
+
+    else:
+        print("Account Does Not Exist")
+
+
+# MAIN PROGRAM
 while True:
 
     print("\n===== BANK ACCOUNT SYSTEM =====")
@@ -30,7 +49,7 @@ while True:
         create_account()
 
     elif choice == "2":
-        print("Login Selected")
+        login()
 
     elif choice == "3":
         print("Thank You")
