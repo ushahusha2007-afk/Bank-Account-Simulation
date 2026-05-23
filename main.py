@@ -74,6 +74,19 @@ def withdraw():
         print("Account Does Not Exist")
 
 
+# CHECK BALANCE FUNCTION
+def check_balance():
+
+    acc_no = input("Enter Account Number: ")
+
+    if acc_no in accounts:
+
+        print("Current Balance:", accounts[acc_no]["balance"])
+
+    else:
+        print("Account Does Not Exist")
+
+
 # MAIN PROGRAM
 while True:
 
@@ -82,7 +95,8 @@ while True:
     print("2. Login")
     print("3. Deposit")
     print("4. Withdraw")
-    print("5. Exit")
+    print("5. Check Balance")
+    print("6. Exit")
 
     choice = input("Enter your choice: ")
 
@@ -99,6 +113,9 @@ while True:
         withdraw()
 
     elif choice == "5":
+        check_balance()
+
+    elif choice == "6":
         print("Thank You")
         break
 
