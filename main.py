@@ -1,5 +1,7 @@
 accounts = {}
 
+transactions = []
+
 # CREATE ACCOUNT FUNCTION
 def create_account():
 
@@ -45,6 +47,10 @@ def deposit():
 
         accounts[acc_no]["balance"] += amount
 
+        transactions.append(
+            f"Account {acc_no} Deposited ₹{amount}"
+        )
+
         print("Amount Deposited Successfully")
         print("Updated Balance:", accounts[acc_no]["balance"])
 
@@ -63,6 +69,10 @@ def withdraw():
         if accounts[acc_no]["balance"] >= amount:
 
             accounts[acc_no]["balance"] -= amount
+
+            transactions.append(
+                f"Account {acc_no} Withdrawn ₹{amount}"
+            )
 
             print("Withdrawal Successful")
             print("Remaining Balance:", accounts[acc_no]["balance"])
@@ -87,6 +97,22 @@ def check_balance():
         print("Account Does Not Exist")
 
 
+# TRANSACTION HISTORY FUNCTION
+def transaction_history():
+
+    if len(transactions) == 0:
+
+        print("No Transactions Available")
+
+    else:
+
+        print("\n===== TRANSACTION HISTORY =====")
+
+        for transaction in transactions:
+
+            print(transaction)
+
+
 # MAIN PROGRAM
 while True:
 
@@ -96,7 +122,8 @@ while True:
     print("3. Deposit")
     print("4. Withdraw")
     print("5. Check Balance")
-    print("6. Exit")
+    print("6. Transaction History")
+    print("7. Exit")
 
     choice = input("Enter your choice: ")
 
@@ -116,6 +143,9 @@ while True:
         check_balance()
 
     elif choice == "6":
+        transaction_history()
+
+    elif choice == "7":
         print("Thank You")
         break
 
