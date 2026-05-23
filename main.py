@@ -52,6 +52,28 @@ def deposit():
         print("Account Does Not Exist")
 
 
+# WITHDRAW FUNCTION
+def withdraw():
+
+    acc_no = input("Enter Account Number: ")
+    amount = float(input("Enter Amount to Withdraw: "))
+
+    if acc_no in accounts:
+
+        if accounts[acc_no]["balance"] >= amount:
+
+            accounts[acc_no]["balance"] -= amount
+
+            print("Withdrawal Successful")
+            print("Remaining Balance:", accounts[acc_no]["balance"])
+
+        else:
+            print("Insufficient Balance")
+
+    else:
+        print("Account Does Not Exist")
+
+
 # MAIN PROGRAM
 while True:
 
@@ -59,7 +81,8 @@ while True:
     print("1. Create Account")
     print("2. Login")
     print("3. Deposit")
-    print("4. Exit")
+    print("4. Withdraw")
+    print("5. Exit")
 
     choice = input("Enter your choice: ")
 
@@ -73,6 +96,9 @@ while True:
         deposit()
 
     elif choice == "4":
+        withdraw()
+
+    elif choice == "5":
         print("Thank You")
         break
 
