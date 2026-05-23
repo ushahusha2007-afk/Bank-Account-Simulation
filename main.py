@@ -35,13 +35,31 @@ def login():
         print("Account Does Not Exist")
 
 
+# DEPOSIT FUNCTION
+def deposit():
+
+    acc_no = input("Enter Account Number: ")
+    amount = float(input("Enter Amount to Deposit: "))
+
+    if acc_no in accounts:
+
+        accounts[acc_no]["balance"] += amount
+
+        print("Amount Deposited Successfully")
+        print("Updated Balance:", accounts[acc_no]["balance"])
+
+    else:
+        print("Account Does Not Exist")
+
+
 # MAIN PROGRAM
 while True:
 
     print("\n===== BANK ACCOUNT SYSTEM =====")
     print("1. Create Account")
     print("2. Login")
-    print("3. Exit")
+    print("3. Deposit")
+    print("4. Exit")
 
     choice = input("Enter your choice: ")
 
@@ -52,6 +70,9 @@ while True:
         login()
 
     elif choice == "3":
+        deposit()
+
+    elif choice == "4":
         print("Thank You")
         break
 
