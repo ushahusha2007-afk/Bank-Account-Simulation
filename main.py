@@ -1,9 +1,11 @@
-accounts = {}
+from tkinter import *
+from tkinter import messagebox
 
+accounts = {}
 transactions = []
 
 
-# LOAD ACCOUNTS FROM FILE
+# ---------------- LOAD ACCOUNTS ----------------
 def load_accounts():
 
     try:
@@ -32,7 +34,7 @@ def load_accounts():
         pass
 
 
-# SAVE ACCOUNTS TO FILE
+# ---------------- SAVE ACCOUNTS ----------------
 def save_accounts():
 
     file = open("accounts.txt", "w")
@@ -50,7 +52,7 @@ def save_accounts():
     file.close()
 
 
-# LOAD TRANSACTIONS
+# ---------------- LOAD TRANSACTIONS ----------------
 def load_transactions():
 
     try:
@@ -68,7 +70,7 @@ def load_transactions():
         pass
 
 
-# SAVE TRANSACTIONS
+# ---------------- SAVE TRANSACTIONS ----------------
 def save_transactions():
 
     file = open("transactions.txt", "w")
@@ -80,19 +82,23 @@ def save_transactions():
     file.close()
 
 
-# CREATE ACCOUNT FUNCTION
+# ---------------- CREATE ACCOUNT ----------------
 def create_account():
 
-    acc_no = input("Enter Account Number: ")
+    acc_no = entry_acc.get()
 
     if acc_no in accounts:
 
-        print("Account Already Exists")
+        messagebox.showerror(
+            "Error",
+            "Account Already Exists"
+        )
+
         return
 
-    name = input("Enter Name: ")
-    password = input("Enter Password: ")
-    balance = float(input("Enter Initial Balance: "))
+    name = entry_name.get()
+    password = entry_password.get()
+    balance = float(entry_balance.get())
 
     accounts[acc_no] = {
         "name": name,
@@ -102,35 +108,48 @@ def create_account():
 
     save_accounts()
 
-    print("Account Created Successfully")
+    messagebox.showinfo(
+        "Success",
+        "Account Created Successfully"
+    )
 
 
-# LOGIN FUNCTION
+# ---------------- LOGIN ----------------
 def login():
 
-    acc_no = input("Enter Account Number: ")
-    password = input("Enter Password: ")
+    acc_no = entry_acc.get()
+    password = entry_password.get()
 
     if acc_no in accounts:
 
         if accounts[acc_no]["password"] == password:
 
-            print("Login Successful")
+            messagebox.showinfo(
+                "Success",
+                "Login Successful"
+            )
 
         else:
 
-            print("Incorrect Password")
+            messagebox.showerror(
+                "Error",
+                "Incorrect Password"
+            )
 
     else:
 
-        print("Account Does Not Exist")
+        messagebox.showerror(
+            "Error",
+            "Account Does Not Exist"
+        )
 
 
-# DEPOSIT FUNCTION
+# ---------------- DEPOSIT ----------------
 def deposit():
 
-    acc_no = input("Enter Account Number: ")
-    amount = float(input("Enter Amount to Deposit: "))
+    acc_no = entry_acc.get()
+
+    amount = float(entry_amount.get())
 
     if acc_no in accounts:
 
@@ -143,19 +162,25 @@ def deposit():
         save_accounts()
         save_transactions()
 
-        print("Amount Deposited Successfully")
-        print("Updated Balance:", accounts[acc_no]["balance"])
+        messagebox.showinfo(
+            "Success",
+            f"Amount Deposited\nBalance = Rs.{accounts[acc_no]['balance']}"
+        )
 
     else:
 
-        print("Account Does Not Exist")
+        messagebox.showerror(
+            "Error",
+            "Account Does Not Exist"
+        )
 
 
-# WITHDRAW FUNCTION
+# ---------------- WITHDRAW ----------------
 def withdraw():
 
-    acc_no = input("Enter Account Number: ")
-    amount = float(input("Enter Amount to Withdraw: "))
+    acc_no = entry_acc.get()
+
+    amount = float(entry_amount.get())
 
     if acc_no in accounts:
 
@@ -170,96 +195,243 @@ def withdraw():
             save_accounts()
             save_transactions()
 
-            print("Withdrawal Successful")
-            print("Remaining Balance:", accounts[acc_no]["balance"])
+            messagebox.showinfo(
+                "Success",
+                f"Withdrawal Successful\nBalance = Rs.{accounts[acc_no]['balance']}"
+            )
 
         else:
 
-            print("Insufficient Balance")
+            messagebox.showerror(
+                "Error",
+                "Insufficient Balance"
+            )
 
     else:
 
-        print("Account Does Not Exist")
+        messagebox.showerror(
+            "Error",
+            "Account Does Not Exist"
+        )
 
 
-# CHECK BALANCE FUNCTION
+# ---------------- CHECK BALANCE ----------------
 def check_balance():
 
-    acc_no = input("Enter Account Number: ")
+    acc_no = entry_acc.get()
 
     if acc_no in accounts:
 
-        print("Current Balance:", accounts[acc_no]["balance"])
+        messagebox.showinfo(
+            "Balance",
+            f"Current Balance = Rs.{accounts[acc_no]['balance']}"
+        )
 
     else:
 
-        print("Account Does Not Exist")
+        messagebox.showerror(
+            "Error",
+            "Account Does Not Exist"
+        )
 
 
-# TRANSACTION HISTORY FUNCTION
-def transaction_history():
+# ---------------- TRANSACTION HISTORY ----------------
+def show_transactions():
 
     if len(transactions) == 0:
 
-        print("No Transactions Available")
+        messagebox.showinfo(
+            "Transactions",
+            "No Transactions Available"
+        )
 
     else:
 
-        print("\n===== TRANSACTION HISTORY =====")
+        history = ""
 
         for transaction in transactions:
 
-            print(transaction)
+            history += transaction + "\n"
+
+        messagebox.showinfo(
+            "Transaction History",
+            history
+        )
 
 
-# LOAD DATA WHEN PROGRAM STARTS
+# ---------------- LOAD DATA ----------------
 load_accounts()
 load_transactions()
 
 
-# MAIN PROGRAM
-while True:
+# ---------------- MAIN WINDOW ----------------
+root = Tk()
 
-    print("\n===== BANK ACCOUNT SYSTEM =====")
-    print("1. Create Account")
-    print("2. Login")
-    print("3. Deposit")
-    print("4. Withdraw")
-    print("5. Check Balance")
-    print("6. Transaction History")
-    print("7. Exit")
+root.title("Bank Account Simulation")
 
-    choice = input("Enter your choice: ")
+root.geometry("500x700")
 
-    if choice == "1":
+root.configure(bg="lightblue")
 
-        create_account()
 
-    elif choice == "2":
+# ---------------- HEADING ----------------
+heading = Label(
+    root,
+    text="BANK ACCOUNT SYSTEM",
+    font=("Arial", 20, "bold"),
+    bg="lightblue",
+    fg="darkblue"
+)
 
-        login()
+heading.pack(pady=20)
 
-    elif choice == "3":
 
-        deposit()
+# ---------------- ACCOUNT NUMBER ----------------
+Label(
+    root,
+    text="Account Number",
+    font=("Arial", 12),
+    bg="lightblue"
+).pack()
 
-    elif choice == "4":
+entry_acc = Entry(root, font=("Arial", 12))
 
-        withdraw()
+entry_acc.pack(pady=5)
 
-    elif choice == "5":
 
-        check_balance()
+# ---------------- NAME ----------------
+Label(
+    root,
+    text="Name",
+    font=("Arial", 12),
+    bg="lightblue"
+).pack()
 
-    elif choice == "6":
+entry_name = Entry(root, font=("Arial", 12))
 
-        transaction_history()
+entry_name.pack(pady=5)
 
-    elif choice == "7":
 
-        print("Thank You")
-        break
+# ---------------- PASSWORD ----------------
+Label(
+    root,
+    text="Password",
+    font=("Arial", 12),
+    bg="lightblue"
+).pack()
 
-    else:
+entry_password = Entry(
+    root,
+    show="*",
+    font=("Arial", 12)
+)
 
-        print("Invalid Choice")
+entry_password.pack(pady=5)
+
+
+# ---------------- INITIAL BALANCE ----------------
+Label(
+    root,
+    text="Initial Balance",
+    font=("Arial", 12),
+    bg="lightblue"
+).pack()
+
+entry_balance = Entry(root, font=("Arial", 12))
+
+entry_balance.pack(pady=5)
+
+
+# ---------------- AMOUNT ----------------
+Label(
+    root,
+    text="Amount",
+    font=("Arial", 12),
+    bg="lightblue"
+).pack()
+
+entry_amount = Entry(root, font=("Arial", 12))
+
+entry_amount.pack(pady=5)
+
+
+# ---------------- BUTTONS ----------------
+Button(
+    root,
+    text="Create Account",
+    font=("Arial", 12, "bold"),
+    bg="green",
+    fg="white",
+    width=20,
+    command=create_account
+).pack(pady=10)
+
+
+Button(
+    root,
+    text="Login",
+    font=("Arial", 12, "bold"),
+    bg="blue",
+    fg="white",
+    width=20,
+    command=login
+).pack(pady=10)
+
+
+Button(
+    root,
+    text="Deposit",
+    font=("Arial", 12, "bold"),
+    bg="orange",
+    fg="white",
+    width=20,
+    command=deposit
+).pack(pady=10)
+
+
+Button(
+    root,
+    text="Withdraw",
+    font=("Arial", 12, "bold"),
+    bg="red",
+    fg="white",
+    width=20,
+    command=withdraw
+).pack(pady=10)
+
+
+Button(
+    root,
+    text="Check Balance",
+    font=("Arial", 12, "bold"),
+    bg="purple",
+    fg="white",
+    width=20,
+    command=check_balance
+).pack(pady=10)
+
+
+Button(
+    root,
+    text="Transaction History",
+    font=("Arial", 12, "bold"),
+    bg="brown",
+    fg="white",
+    width=20,
+    command=show_transactions
+).pack(pady=10)
+
+
+Button(
+    root,
+    text="Exit",
+    font=("Arial", 12, "bold"),
+    bg="black",
+    fg="white",
+    width=20,
+    command=root.destroy
+).pack(pady=20)
+
+
+# ---------------- RUN WINDOW ----------------
+root.mainloop()
